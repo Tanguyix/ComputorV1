@@ -1,5 +1,6 @@
 import sys
 import re
+from utils import sqrt
 
 class Polynome:
     def __init__(self, userEntry):
@@ -88,7 +89,7 @@ class Polynome:
 
     def getDegre(self, reduced):
         self.degre = int(max((reduced.keys())))
-        print("Polynomial degree: " + str(self.degre))
+        print("Polynomial degree: ", self.degre)
 
     def solveDeg0(self, reduced):
         if (reduced["0"] == 0):
@@ -109,10 +110,16 @@ class Polynome:
         delta = b * b - 4 * a * c
 
         if delta < 0:
-            print(delta)
+            sqr = sqrt(-delta, 0.001)
+            print("Discriminand is strictly negative, the 2 complex solutions are:")
+            print("(", -b, " + ", sqr, "i ) /", 2 * a)
+            print("(", -b, " - ", sqr, "i ) /", 2 * a)
         elif delta == 0:
             print("Discriminant is equal to zero, the solution is:")
             print(-b / (2 * a))
         else:
-            print(delta)
+            sqr = sqrt(delta, 0.001)
+            print("Discriminant is strictly positive, the 2 solutions are:")
+            print((-b + sqr) / (2 * a))
+            print((-b - sqr) / (2 * a))
 
