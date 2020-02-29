@@ -6,6 +6,7 @@ class Polynome:
         self.userEntry = userEntry
         self.strMonomes = []
         self.monomes = []
+        self.degre = 0
 
     def parse(self):
         monomes = self.userEntry.split('=')
@@ -16,7 +17,6 @@ class Polynome:
         self.parseMonome(monomes[1])
         self.getElements(self.strMonomes[0])
         self.getElements(self.strMonomes[1])
-        print(self.monomes)
         
     def getElements(self, monome):
         poly = dict()
@@ -31,7 +31,6 @@ class Polynome:
             elem = elem.replace('*', '')
             elem = re.sub("X\^[0-9]+", "", elem)
             if str(degre) in poly:
-                print("degre in poly")
                 poly[str(degre)] += float(elem)
             else:
                 poly[degre] = float(elem)
@@ -52,3 +51,23 @@ class Polynome:
                 values[j] += monome[i]
                 i += 1
         self.strMonomes.append(values)
+
+    def reduce(self):
+        left = self.monomes[0]
+        right = self.monomes[1]
+        for elem in right:
+            if (str(elem) in left):
+                left[str(elem)] -= float(right[elem])
+            else:
+                left[str(elem)] = -float(right[elem])
+        self.print(left)
+
+    def print(self, reduced):
+        string = "Reduced form: "
+        for i in reduced:
+            string += (str(reduced[i]) + " * X^" + str(i) + " + ")
+        string = string.replace("+ -", "- ")
+        string += "= 0"
+        string = string.replace("+ =", "=")
+        string = string.replace(".0 ", " ")
+        print(string)
