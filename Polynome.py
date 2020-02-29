@@ -103,5 +103,16 @@ class Polynome:
         print(-b / a)
         
     def solveDeg2(self, reduced):
-        print(reduced)
+        a = reduced["2"]
+        b = reduced["1"]
+        c = reduced["0"]
+        delta = b * b - 4 * a * c
+
+        if delta < 0:
+            print(delta)
+        elif delta == 0:
+            print("Discriminant is equal to zero, the solution is:")
+            print(-b / (2 * a))
+        else:
+            print(delta)
 
