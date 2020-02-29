@@ -9,3 +9,4 @@ userEntry = sys.argv[1]
 poly = Polynome(userEntry)
 poly.parse()
 poly.reduce()
+poly.solve()

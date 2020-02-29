@@ -7,6 +7,7 @@ class Polynome:
         self.strMonomes = []
         self.monomes = []
         self.degre = 0
+        self.reduced = dict()
 
     def parse(self):
         monomes = self.userEntry.split('=')
@@ -60,6 +61,7 @@ class Polynome:
                 left[str(elem)] -= float(right[elem])
             else:
                 left[str(elem)] = -float(right[elem])
+        self.reduced = left
         self.print(left)
 
     def print(self, reduced):
@@ -71,3 +73,35 @@ class Polynome:
         string = string.replace("+ =", "=")
         string = string.replace(".0 ", " ")
         print(string)
+
+    def solve(self):
+        self.getDegre(self.reduced)
+        if (self.degre >= 3):
+            print("The polynomial degree is stricly greater than 2, I can't solve.")
+            sys.exit()
+        elif self.degre == 2:
+            self.solveDeg2(self.reduced)
+        elif self.degre == 1:
+            self.solveDeg1(self.reduced)
+        else:
+            self.solveDeg0(self.reduced)
+
+    def getDegre(self, reduced):
+        self.degre = int(max((reduced.keys())))
+        print("Polynomial degree: " + str(self.degre))
+
+    def solveDeg0(self, reduced):
+        if (reduced["0"] == 0):
+            print("All numbers are solutions")
+        else:
+            print("No solutions")
+
+    def solveDeg1(self, reduced):
+        a = reduced["1"]
+        b = reduced["0"]
+        print("The solution is:")
+        print(-b / a)
+        
+    def solveDeg2(self, reduced):
+        print(reduced)
+
