@@ -45,6 +45,7 @@ class Polynome:
         values = []
         while i < len(monome):
             values.append('')
+            values[j] = values[j].replace(" ", "")
             j += 1
             if monome[i] == '-':
                 values[j] = '-'
@@ -52,6 +53,7 @@ class Polynome:
             while i < len(monome) and monome[i] != '+' and monome[i] != '-':
                 values[j] += monome[i]
                 i += 1
+        values = list(filter(None, values))
         self.strMonomes.append(values)
 
     def reduce(self):
