@@ -32,8 +32,10 @@ class Polynome:
                 degre = degre.group()
             elem = elem.replace('*', '')
             elem = re.sub("X\^[0-9]+", "", elem)
-            if str(degre) in poly:
+            if str(degre) in poly and len(elem):
                 poly[str(degre)] += float(elem)
+            elif str(degre) in poly:
+                poly[str(degre)] += 1
             elif not len(elem):
                 poly[str(degre)] = 1
             else:
@@ -100,7 +102,7 @@ class Polynome:
 
     def getDegre(self, reduced):
         self.degre = int(max((reduced.keys()))) 
-        print("Polynomial degree: ", self.degre)
+        print("Polynomial degree: " + str(self.degre))
 
     def solveDeg0(self, reduced):
         if (reduced["0"] == 0):
