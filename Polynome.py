@@ -34,8 +34,10 @@ class Polynome:
             elem = re.sub("X\^[0-9]+", "", elem)
             if str(degre) in poly:
                 poly[str(degre)] += float(elem)
+            elif not len(elem):
+                poly[str(degre)] = 1
             else:
-                poly[degre] = float(elem)
+                poly[str(degre)] = float(elem)
         self.monomes.append(poly)
 
 
@@ -43,6 +45,12 @@ class Polynome:
         i = -1
         j = -1
         values = []
+        monome = monome.replace('X ', 'X^1')
+        monome = monome.replace('X+', 'X^1')
+        monome = monome.replace('X-', 'X^1')
+        if monome[len(monome) - 1 ] == 'X':
+            monome += '^1'
+
         while i < len(monome):
             values.append('')
             values[j] = values[j].replace(" ", "")
@@ -60,17 +68,18 @@ class Polynome:
         left = self.monomes[0]
         right = self.monomes[1]
         for elem in right:
-            if (str(elem) in left):
+            if (elem in left): 
                 left[str(elem)] -= float(right[elem])
             else:
                 left[str(elem)] = -float(right[elem])
         self.reduced = left
-        self.print(left)
+        self.printReduced(left)
 
-    def print(self, reduced):
+    def printReduced(self, reduced):
         string = "Reduced form: "
         for i in reduced:
-            string += (str(reduced[i]) + " * X^" + str(i) + " + ")
+            if (reduced[i]):
+                string += (str(reduced[i]) + " * X^" + str(i) + " + ")
         string = string.replace("+ -", "- ")
         string += "= 0"
         string = string.replace("+ =", "=")
@@ -90,7 +99,7 @@ class Polynome:
             self.solveDeg0(self.reduced)
 
     def getDegre(self, reduced):
-        self.degre = int(max((reduced.keys())))
+        self.degre = int(max((reduced.keys()))) 
         print("Polynomial degree: ", self.degre)
 
     def solveDeg0(self, reduced):
@@ -103,7 +112,10 @@ class Polynome:
         a = reduced["1"]
         b = reduced["0"]
         print("The solution is:")
-        print(-b / a)
+        if a: 
+            print(-b / a)
+        else:
+            print(0)
         
     def solveDeg2(self, reduced):
         a = reduced["2"]
